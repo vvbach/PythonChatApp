@@ -42,7 +42,6 @@ class CollectionSettings(BaseSettings):
     PRIVATE_CHAT_COLLECTION: str = os.environ.get('PRIVATE_CHAT_COLLECTION')
     GROUP_CHAT_COLLECTION: str = os.environ.get('GROUP_CHAT_COLLECTION')
 
-    EMAIL_PASSWORD: str= os.environ.get('EMAIL_PASSWORD')
 
 class Settings(
     CommonSettings, 

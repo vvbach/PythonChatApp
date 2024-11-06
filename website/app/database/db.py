@@ -6,11 +6,9 @@ from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 
 
 # Determine the MongoDB URL based on the environment (Docker or local)
-if "MONGODB_URI" in os.environ:
-    MONGODB_URL = os.environ["MONGODB_URI"]
-else:
+
     # MongoDB connection URL for local machine
-    MONGODB_URL = f'mongodb://{settings.USER}:{settings.PASSWORD}@{settings.HOST}:{settings.PORT}'
+MONGODB_URL = f'mongodb://{settings.USER}:{settings.PASSWORD}@{settings.HOST}:{settings.PORT}'
 
 # Create an AsyncIOMotorClient for MongoDB
 mongo_client = AsyncIOMotorClient(MONGODB_URL)
