@@ -5,9 +5,7 @@ import Home from "./components/Layout/Home";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Chats from "./components/Chats/Chats";
 import Profile from "./components/Profile/Profile";
-import Groups from "./components/Groups/Groups";
 import Messages from "./components/Messages/Messages";
-import App from "./App.jsx";
 import {
     privateChatsLoader,
     usersLoader,
@@ -17,7 +15,6 @@ import {
 } from "./utilities/apiLoaders";
 import Users from "./components/Users/Users";
 import MyProfile from "./components/MyProfile/MyProfile";
-import Settings from "./components/Settings/Settings";
 import SignupLogin from "./components/SignupLogin/SignupLogin";
 import Auth from "./components/Auth/Auth";
 
@@ -53,11 +50,6 @@ const router = createBrowserRouter([
                 loader: myProfileLoader,
             },
             {
-                path: "/cp/groups",
-                element: <Groups />,
-                // loader={}
-            },
-            {
                 path: "/cp/users",
                 element: <Users />,
                 loader: usersLoader,
@@ -74,17 +66,11 @@ const router = createBrowserRouter([
                     },
                 ],
             },
-            {
-                path: "/cp/settings",
-                element: <Settings />,
-                // loader={}
-            },
         ],
     },
 ]);
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
         <RouterProvider router={router} />
-        {/* <App /> */}
     </React.StrictMode>
 );

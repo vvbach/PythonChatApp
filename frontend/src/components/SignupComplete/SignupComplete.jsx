@@ -30,7 +30,7 @@ const SignupComplete = ({userName}) => {
                 className="text-xl text-cyan-800 font-semibold"
                 variants={textVariants}
             >
-                ChatP Sign Up Complete.
+                Sign Up Complete.
             </motion.h1>
         </motion.div>
     );

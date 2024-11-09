@@ -4,7 +4,6 @@ import LoginInputFields from "../LoginInputFields/LoginInputFields";
 import { handleLoginData } from "../../utilities/handlers";
 import { getToken, setToken } from "../../utilities/tokenService";
 import { useNavigate } from "react-router-dom";
-import PasswordChange from "../PasswordChange/PasswordChange";
 
 const Login = () => {
     const containerVariants = {
@@ -76,19 +75,15 @@ const Login = () => {
             animate="animate"
             variants={containerVariants}
         >
-            {!forgotPassword ? (
-                <LoginInputFields
-                    handleLoginSubmit={handleLoginSubmit}
-                    formData={formData} // Pass the formData to the child component
-                    fieldError={errorMessage}
-                    handleInputChange={handleInputChange} // Pass the handleInputChange function to the child component
-                    haldleForgotPassword={haldleForgotPassword}
-                />
-            ) : (
-                // <PasswordChange />
-                <h1>Forgot password</h1>
-
-            )}
+            
+          <LoginInputFields
+              handleLoginSubmit={handleLoginSubmit}
+              formData={formData} // Pass the formData to the child component
+              fieldError={errorMessage}
+              handleInputChange={handleInputChange} // Pass the handleInputChange function to the child component
+              haldleForgotPassword={haldleForgotPassword}
+          />
+            
         </motion.div>
     );
 };

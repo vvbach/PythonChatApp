@@ -34,8 +34,7 @@ const Messages = () => {
     // State to store the WebSocket instance
     const [socket, setSocket] = useState(null);
     useEffect(() => {
-        // const url = `ws://127.0.0.1:8000/ws/chat/${chat_id}`;
-        const url = `ws://127.0.0.1:9000/ws/chat/${type}/${chat_id}/token=${token}`;
+        const url = `ws://127.0.0.1:8081/ws/chat/${type}/${chat_id}/token=${token}`;
 
         // https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_client_applications
         // Create a WebSocket instance

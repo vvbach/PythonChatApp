@@ -59,15 +59,6 @@ const LoginInputFields = ({
                 >
                     Login
                 </motion.button>
-                <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="text-sm text-cyan-800 pl-2"
-                    type="text"
-                    onClick={haldleForgotPassword}
-                >
-                    Forgot Password
-                </motion.button>
             </form>
         </div>
     );

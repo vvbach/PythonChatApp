@@ -46,11 +46,7 @@ const Profile = () => {
             <div className="grow ml-12">
                 <ul>
                     <li>User Name: {username}</li>
-                    <li>First Name: {first_name}</li>
-                    <li>Last Name: {last_name}</li>
                     <li>Email: {email}</li>
-                    <li>Phone: {phone}</li>
-                    <li>Status: {active ? "Active" : "Not Active"}</li>
                 </ul>
             </div>
             

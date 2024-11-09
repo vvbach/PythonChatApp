@@ -23,7 +23,7 @@ const LandingPage = () => {
         className="text-3xl text-cyan-800 font-semibold"
         variants={textVariants}
       >
-        Welcome to ChatP
+        Welcome to Chopper
       </motion.h1>
     </motion.div>
   );

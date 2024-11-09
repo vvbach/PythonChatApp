@@ -4,14 +4,11 @@ import Signup from "../Signup/Signup";
 import LandingPage from "../LandingPge/LandingPage";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
-import AccountActivatedPage from "../AccountActivatedPage/AccountActivatedPage";
 
 const SignupLogin = () => {
-    // use useLocatio to access params / data
     const location = useLocation();
     const params = new URLSearchParams(location.search);
 
-    // Access query parameters after activating account by email verification
     const accountActivated = params.get("activated");
     console.log(accountActivated);
 

@@ -14,10 +14,7 @@ const MyProfile = () => {
             
                 <ul>
                     <li>User Name: {username}</li>
-                    <li>First Name: {first_name}</li>
-                    <li>Last Name: {last_name}</li>
                     <li>Email: {email}</li>
-                    <li>Phone: {phone}</li>
                 </ul>
           
            
