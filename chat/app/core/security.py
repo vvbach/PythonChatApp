@@ -1,7 +1,5 @@
 from itsdangerous import URLSafeTimedSerializer
-from datetime import datetime, timedelta
 from passlib.context import CryptContext
-from jose import JWTError, jwt
 from app.core.config import settings
 
 

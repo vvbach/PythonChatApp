@@ -33,8 +33,3 @@ class ChatBaseModel(BaseModel):
 class PrivateChatModel(ChatBaseModel):
     type: str = Field(default='private')
 
-class GroupChatModel(ChatBaseModel):
-    type: str = Field(default='group')
-    chat_name: str | None = Field(None)
-
-

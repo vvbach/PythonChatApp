@@ -3,21 +3,11 @@ from fastapi.responses import JSONResponse
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from app.core.config import settings
 from app.crud.user import User
-# from app.crud.user import db_get_user_by_id
 from app.models import (
-    GroupChatModel,
     MessageModel,
     MessageRecipientModel,
     PrivateChatModel)
 from app import schemas
-from app.serializers import serializers
-
-
-# async def is_chat_member(user_id: str, chat_id: str, db: AsyncIOMotorDatabase) -> bool:
-#     chat = db_get_chat(chat_id, db)
-#     if user_id in chat.get('members'):
-#         return True
-#     return False
 
 
 
@@ -75,13 +65,9 @@ class BaseChatManager:
         result = await self.chat_collection.update_one(
             {'chat_id': chat_id},
             {'$push': {'messages': new_message.model_dump()}}
-            # as I pushed new message inside messages,
-            # it will not create any default '_id' for new message
-            # if i use insert_one(), it will automatically create a '_id' field
         )
 
         if result.matched_count == 1 and result.modified_count == 1:
-            # return {"message": "Item added to profile successfully"}
             return new_message
 
 
@@ -109,19 +95,13 @@ class PrivateChatManager(BaseChatManager):
 
         ids = [current_user_id, recipient_id]
         new_chat = PrivateChatModel(member_ids=ids)
-        # print('new_chat', new_chat)
 
         inserted = await self.insert_chat_to_db(new_chat)
-        # print('inserted', inserted)
 
         if not inserted:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND, detail='Chat not created.')
 
-        # In member ids, one is user another is recipient
-        # user1, recipient1  = recipient2, user2 = ids
-        # message_recipient = [(user1, recipient1), (user2, recipient2)]
-        # (user, recipient)
         message_recipients = [(ids[0], ids[1]), (ids[1], ids[0])]
 
         for user_id, recipient_id in message_recipients:
@@ -171,16 +151,8 @@ class PrivateChatManager(BaseChatManager):
             current_user_id: str, 
             recipient_id: str
     ) -> schemas.MessageRecipient:
-        # query = {
-        #     'id': current_user_id,
-        #     'private_message_recipients.recipient_id': recipient_id
-        # }
-        # Retrieve the user with the matching query
-        # user = await self.chat_collection.find_one(query)
-
         user = await self.user_manager.get_by_id(current_user_id)
 
-        # print('user[\'private_message_recipients\']: ', user['private_message_recipients'] )
         if user['private_message_recipients']:
             for recipient in user['private_message_recipients']:
                 if recipient['recipient_id'] == recipient_id:
@@ -190,86 +162,6 @@ class PrivateChatManager(BaseChatManager):
             detail='No private message recipients!'
         )
 
-
-"""------------------------Section: handle private chat------------------------"""
-
-
-"""
-async def db_create_private_chat(current_user_id: str,
-                                 recipient_id: str,
-                                 db: AsyncIOMotorDatabase,
-                                 ):
-
-    member_ids = [current_user_id, recipient_id]
-    serialized_chat = PrivateChatModel(member_ids=member_ids)
-
-    result = await db[PRIVATE_CHAT_COLLECTION].insert_one(serialized_chat.model_dump())
-
-    if result.acknowledged:
-        # add chat_id to member's private_message_recipients field
-        added = await add_chat_id_to_users(member_ids, serialized_chat.chat_id, db)
-
-        if added:
-            created_chat = await db_get_chat(serialized_chat.chat_id, db, collection=PRIVATE_CHAT_COLLECTION)
-            # print('created_chat', created_chat)
-            return created_chat
-
-    # except Exception as e:
-    #     # Handle other exceptions if needed
-    #     print(f"An unexpected error occurred: {str(e)}")
-
-"""
-
-
-"""------------------------Section: handle group chat------------------------"""
-
-
-class GroupChatManager(BaseChatManager):
-    def __init__(self, db: AsyncIOMotorDatabase):
-        super().__init__(db, settings.GROUP_CHAT_COLLECTION)
-
-
-async def get_group_chat(chat_id: str,
-                         db: AsyncIOMotorDatabase):
-    chat = await db['GroupChat'].find_one({'chat_id': chat_id})
-    if not chat:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f'Chat not found')
-    return chat
-
-
-async def db_create_group_chat(group_data: schemas.GroupChat,
-                               db: AsyncIOMotorDatabase,
-                               collection):
-    serialized_chat = GroupChatModel(**group_data.model_dump())
-    result = await db[collection].insert_one(serialized_chat.model_dump())
-
-    if result.acknowledged:
-        # add chat_id to every member's group_chat_ids
-        added = await add_group_chat_id_to_users(serialized_chat.chat_id,
-                                                 serialized_chat.member_ids, db)
-        if added:
-            chat = await get_group_chat(serialized_chat.chat_id, db)
-            return chat
-
-
-async def add_group_chat_id_to_users(chat_id: str,
-                                     member_ids: list[str],
-                                     db: AsyncIOMotorDatabase) -> bool:
-    for id in member_ids:
-        result = await db['Users'].update_one(
-            {'id': id},
-            {'$push': {'group_chat_ids': chat_id}}
-        )
-        if result.matched_count != 1 and result.modified_count != 1:
-            content = {
-                'message': 'Group chat id was not added to user id: {id}'}
-            return JSONResponse(content=content)
-    return True
-
-
-"""------------------------Section: handle messages------------------------"""
-# Section: handle messages
 
 
 async def db_get_messages(chat_id: str, db: AsyncIOMotorDatabase):

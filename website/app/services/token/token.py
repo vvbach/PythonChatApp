@@ -1,4 +1,3 @@
-from fastapi import Depends, HTTPException, status
 from app import schemas
 from datetime import datetime, timedelta
 from app.core.config import settings

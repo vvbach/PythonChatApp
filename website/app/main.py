@@ -3,14 +3,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.v1.api import api_router
 
 from app.core.config import settings
-from app.websocket.wsocket import chat_websocket_endpoint
 from app.database.db import (
     startup_db_client,
     shutdown_db_client,
     db_connection_status,
 )
 
-from fastapi.routing import APIWebSocketRoute
 
 
 
@@ -47,7 +45,7 @@ app.add_middleware(
 # App root
 @app.get('/', tags=['Root'])
 async def root():
-    return {'message': 'Welcome to this fantastic ChatP app! No way!!'}
+    return {'message': 'Welcome to this fantastic app !!'}
 
 
 # Api Routers

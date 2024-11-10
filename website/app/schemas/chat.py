@@ -48,10 +48,3 @@ class PrivateChatResponse(ChatBase):
     pass
 
 
-
-class GroupChat(ChatBase):
-    chat_name: str | None
-
-
-class GroupChatResponse(GroupChat):
-    pass

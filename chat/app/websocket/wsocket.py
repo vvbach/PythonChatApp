@@ -1,14 +1,13 @@
 from fastapi import WebSocket, WebSocketDisconnect, Depends
 from app import schemas
 from app.api.v1.dependencies import (
-    get_group_chat_manager, 
     get_private_chat_manager,
     get_token_manager,
     get_user_manager
 )
 from app.core.config import settings
 from app.services.token import TokenManager
-from app.crud.chat import GroupChatManager, PrivateChatManager
+from app.crud.chat import PrivateChatManager
 from app.serializers.serializers import message_serializer
 
 # Store connected WebSocket clients
@@ -23,7 +22,6 @@ async def chat_websocket_endpoint(
     token_subject_key:str =settings.ACCESS_TOKEN_SUBJECT_KEY,
     token_manager:  TokenManager = Depends(get_token_manager),
     pvt_chat_manager: PrivateChatManager = Depends(get_private_chat_manager),
-    # grp_chat_manager: GroupChatManager = Depends(get_group_chat_manager),
     
 ):
     """
@@ -66,9 +64,7 @@ async def chat_websocket_endpoint(
             # print("Message received:", message)
 
 
-            # Handle incoming messages
-            if chat_type == 'private':
-                new_message = await pvt_chat_manager.create_message(current_user['id'], chat_id, message)
+            new_message = await pvt_chat_manager.create_message(current_user['id'], chat_id, message)
             # elif chat_type == 'group':
             #     new_message = await grp_chat_manager.create_message(current_user['id'], chat_id, message)
 

@@ -6,7 +6,6 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from app.core.config import settings
-from jose import JWTError, jwt
 from app.exceptions import credentials_exception
 from app import schemas
 
@@ -31,14 +30,6 @@ async def get_private_chat_manager(
     user_manager: User = Depends(get_user_manager)    # here User is a class
 ):
     return PrivateChatManager(db, user_manager)
-
-
-async def get_group_chat_manager(
-    db: AsyncIOMotorDatabase = Depends(get_db),
-    user_manager: User = Depends(get_user_manager)    # here User is a class
-):
-    return GroupChatManager(db, user_manager)
-
 
 # process 1
 async def get_current_user(
